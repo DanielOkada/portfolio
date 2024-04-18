@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 
@@ -11,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const CustomPaper = ({ children }) => {
+const CustomPaper = ({ children }: { children: React.ReactNode }) => {
     const classes = useStyles();
 
     return (

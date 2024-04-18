@@ -5,14 +5,16 @@ interface KeyboardTypingTextProps {
     children: any;
     speed?: number; // テキストが表示される速度（ミリ秒）
     onDisplayEnd?: () => void; // テキストの表示が終了したときに呼び出すコールバック
+    style?: any;
 }
 
 const KeyboardTypingText = ({
     children,
     speed = 100,
     onDisplayEnd,
+    style,
 }: KeyboardTypingTextProps) => {
-    const [displayText, setDisplayText] = useState("");
+    const [displayText, setDisplayText] = useState<React.ReactNode[]>([]);
 
     const savedCallback = useRef<Function | undefined>(() => {});
     useEffect(() => {
@@ -23,7 +25,10 @@ const KeyboardTypingText = ({
         const interval = setInterval(() => {
             if (currentIndex < children.length - 1) {
                 currentIndex++;
-                setDisplayText((prevText) => prevText + children[currentIndex]);
+                setDisplayText((prevText) => [
+                    ...prevText,
+                    children[currentIndex],
+                ]);
             } else {
                 clearInterval(interval);
                 if (savedCallback.current) {
@@ -36,7 +41,7 @@ const KeyboardTypingText = ({
         return () => clearInterval(interval);
     }, [children, speed]);
 
-    return <span>{displayText}</span>;
+    return <span style={style}>{displayText}</span>;
 };
 
 export default KeyboardTypingText;
