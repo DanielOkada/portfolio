@@ -1,44 +1,42 @@
 "use client";
-import { useEffect, useState } from "react";
-import styles from "./styles.module.css";
+import { useEffect, useRef, useState } from "react";
 
 interface KeyboardTypingTextProps {
-    text: string;
+    children: any;
     speed?: number; // テキストが表示される速度（ミリ秒）
+    onDisplayEnd?: () => void; // テキストの表示が終了したときに呼び出すコールバック
 }
 
-const KeyboardTypingText = ({ text, speed = 100 }: KeyboardTypingTextProps) => {
+const KeyboardTypingText = ({
+    children,
+    speed = 100,
+    onDisplayEnd,
+}: KeyboardTypingTextProps) => {
     const [displayText, setDisplayText] = useState("");
 
+    const savedCallback = useRef<Function | undefined>(() => {});
+    useEffect(() => {
+        savedCallback.current = onDisplayEnd;
+    }, [onDisplayEnd]);
     useEffect(() => {
         let currentIndex = -1;
         const interval = setInterval(() => {
-            if (currentIndex < text.length - 1) {
+            if (currentIndex < children.length - 1) {
                 currentIndex++;
-                setDisplayText((prevText) => prevText + text[currentIndex]);
+                setDisplayText((prevText) => prevText + children[currentIndex]);
             } else {
                 clearInterval(interval);
+                if (savedCallback.current) {
+                    savedCallback.current();
+                }
             }
         }, speed); // テキストが表示される速度をプロパティから取得
 
         // cleanup
         return () => clearInterval(interval);
-    }, [text, speed]);
+    }, [children, speed]);
 
-    // テキストが全部表示されたときだけカーソルを点滅させる
-    const animation = () => {
-        if (displayText.length === text.length) {
-            return {};
-        }
-        return { animation: "none" };
-    };
-
-    return (
-        <div>
-            {displayText}
-            <span className={styles.cursor} style={animation()}></span>
-        </div>
-    );
+    return <span>{displayText}</span>;
 };
 
 export default KeyboardTypingText;
