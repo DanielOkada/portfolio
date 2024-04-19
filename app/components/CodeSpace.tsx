@@ -1,24 +1,15 @@
 "use client";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-
-const useStyles = makeStyles((theme) => ({
-    customPaper: {
-        border: "2px solid lightgray", // 縁の色を設定
-        borderRadius: "15px", // 角の丸みを設定
-        padding: theme.spacing(2), // 適切なパディングを設定
-    },
-}));
+import Paper from "@mui/material/Paper";
 
 const CustomPaper = ({ children }: { children: React.ReactNode }) => {
-    const classes = useStyles();
+    const style = {
+        border: "2px solid lightgray", // 縁の色を設定
+        borderRadius: "15px", // 角の丸みを設定
+        padding: "3rem", // 適切なパディングを設定
+    };
 
     return (
-        <Paper
-            className={classes.customPaper}
-            elevation={15}
-            style={{ width: "300px" }}
-        >
+        <Paper elevation={15} style={style}>
             {children}
         </Paper>
     );

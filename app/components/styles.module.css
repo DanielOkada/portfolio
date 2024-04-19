@@ -1,6 +1,6 @@
 .cursor {
     display: inline-block;
-    width: 3px;
+    width: 6px;
     height: 1em; /* カーソルの高さを調整 */
     background-color: black;
     animation: blink-animation 1s infinite step-start; /* カーソルの点滅アニメーション */

@@ -4,8 +4,9 @@ import KeyboardTypingText from "./components/KeyboardTypingText";
 import Cursor from "./components/Cursor";
 import PartialDisplay from "./components/PartialDisplay";
 import { useState } from "react";
+import styles from "./page.module.css";
 
-export default function Home() {
+const Hello = () => {
     const [blink, setBlink] = useState(false);
     const [index, setIndex] = useState(1);
     const [currentIndex, setCurrentIndex] = useState(1);
@@ -15,56 +16,62 @@ export default function Home() {
         setTimeout(() => {
             setBlink(false);
             setCurrentIndex(currentIndex + 2);
-        }, 1000);
+        }, 1500);
     };
 
     return (
-        <main>
-            <CodeSpace>
-                <PartialDisplay currentIndex={currentIndex}>
-                    <PartialDisplay currentIndex={index}>
-                        <KeyboardTypingText
-                            speed={50}
-                            onDisplayEnd={() => setIndex((prev) => prev + 1)}
-                        >
-                            Hello,
-                        </KeyboardTypingText>
-                        <KeyboardTypingText
-                            speed={50}
-                            style={{ color: "red" }}
-                            onDisplayEnd={() => handleDisplayEnd()}
-                        >
-                            world!
-                        </KeyboardTypingText>
-                    </PartialDisplay>
-                    <br />
+        <CodeSpace>
+            <PartialDisplay currentIndex={currentIndex}>
+                <PartialDisplay currentIndex={index}>
                     <KeyboardTypingText
                         speed={50}
-                        style={{ color: "blue" }}
+                        onDisplayEnd={() => setIndex((prev) => prev + 1)}
+                    >
+                        Hi, I&apos;m&nbsp;
+                    </KeyboardTypingText>
+                    <KeyboardTypingText
+                        speed={50}
+                        style={{ color: "red" }}
                         onDisplayEnd={() => handleDisplayEnd()}
                     >
-                        This is a multi-text display component.
-                    </KeyboardTypingText>
-                    <br />
-                    <KeyboardTypingText
-                        speed={50}
-                        style={{ color: "grey" }}
-                        onDisplayEnd={() => handleDisplayEnd()}
-                    >
-                        It displays each text one by one.
-                    </KeyboardTypingText>
-                    <br />
-                    <KeyboardTypingText
-                        speed={50}
-                        style={{ color: "green" }}
-                        onDisplayEnd={() => setBlink(true)}
-                    >
-                        Enjoy using it!
+                        Daniel Okada!
                     </KeyboardTypingText>
                 </PartialDisplay>
+                <br />
+                <KeyboardTypingText
+                    speed={50}
+                    onDisplayEnd={() => handleDisplayEnd()}
+                >
+                    I&apos;m a master&apos;s student studying Computer Science.
+                </KeyboardTypingText>
+                <br />
+                <KeyboardTypingText
+                    speed={50}
+                    onDisplayEnd={() => handleDisplayEnd()}
+                >
+                    I love programming.
+                </KeyboardTypingText>
+                <br />
+                <KeyboardTypingText
+                    speed={50}
+                    style={{ color: "green" }}
+                    onDisplayEnd={() => setBlink(true)}
+                >
+                    Enjoy exploring my portfolio!
+                </KeyboardTypingText>
+            </PartialDisplay>
 
-                <Cursor blink={blink} />
-            </CodeSpace>
+            <Cursor blink={blink} />
+        </CodeSpace>
+    );
+};
+
+export default function Home() {
+    return (
+        <main className={styles.main}>
+            <div className={styles.code}>
+                <Hello />
+            </div>
         </main>
     );
 }
